@@ -7,25 +7,32 @@
 
 Projeto com o intuito de se criar uma nova linguagem.
 
-## EBNF
+## EBNF - Linguagem _"Python-br"_
 
 ````
 BLOCK = { COMMAND } ;
-COMMAND = ( λ | ASSIGNMENT | PRINT | CONDITION | LOOP ), ";" ;
-ASSIGNMENT = IDENTIFIER, "=", EXPRESSION ;
-PRINT = "println", "(", EXPRESSION, ")" ;
+COMMAND = ( λ | ASSIGNMENT | PRINT | INPUT | CONDITION | LOOP ), ";" ;
+ASSIGNMENT = IDENTIFIER, "=", ( EXPRESSION | BOOLEAN ) ;
+PRINT = "imprimir", "(", EXPRESSION, ")" ;
+LOOP = "enquanto", "(", ( OREXP | ANDEXP | EQEXP | BOOLEAN ) , ")", "{", BLOCK, { ( BREAK | CONTINUE ) } "}" ;
+BREAK = "parar" ;
+CONTINUE  = "continuar" ;
 CONDITION = IF, "{", BLOCK, "}", { ELSEIF, "{", BLOCK, "}" },  { ELSE, "{", BLOCK, "}" } ;
-IF = "if", "(", ( OREXP | ANDEXP | EQEXP ), ")" ;
-ELSEIF = "else if", "(", ( OREXP | ANDEXP | EQEXP ), ")" ;
-ELSE = "else" ;
-OREXP = ( NUMBER | IDENTIFIER ), "||", ( NUMBER | IDENTIFIER ) ;
-ANDEXP = ( NUMBER | IDENTIFIER ), "&&", ( NUMBER | IDENTIFIER ) ;
+IF = "se", "(", ( OREXP | ANDEXP | EQEXP | BOOLEAN ), ")" ;
+ELSEIF = "caso se", "(", ( OREXP | ANDEXP | EQEXP | BOOLEAN ), ")" ;
+ELSE = "senao" ;
+OREXP = ( NUMBER | IDENTIFIER ), "ou", ( NUMBER | IDENTIFIER ) ;
+ANDEXP = ( NUMBER | IDENTIFIER ), "e", ( NUMBER | IDENTIFIER ) ;
 EQEXP = ( NUMBER | IDENTIFIER ), "==", ( NUMBER | IDENTIFIER ) ;
+INPUT = "entrada", "(", ")" ;
 EXPRESSION = TERM, { ("+" | "-"), TERM } ;
 TERM = FACTOR, { ("*" | "/"), FACTOR } ;
 FACTOR = (("+" | "-"), FACTOR) | NUMBER | "(", EXPRESSION, ")" | IDENTIFIER ;
 IDENTIFIER = LETTER, { LETTER | DIGIT | "_" } ;
 NUMBER = DIGIT, { DIGIT } ;
+STRING = ( "'" | """ ) , { LETTER | DIGIT | EXTRACHARS }, ( "'" | """ ) ;
 LETTER = ( a | ... | z | A | ... | Z ) ;
+EXTRACHARS = ( "!" | "@" | "#" | "$" | "?" | "%" | "^" | "&" | "*" | "(" | ")" | ":" | ";" | "{" | "}" | "[" | "]" | "|" | "<" | ">" | "/" | "\" | "~" | "`" | "=" | "_" | "-" | " " ) ;
 DIGIT = ( 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 0 ) ;
+BOOLEAN = ( Verdadeiro | Falso ) ;
 ````

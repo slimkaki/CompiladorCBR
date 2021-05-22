@@ -1,14 +1,14 @@
 import subprocess
 
 def test_1():
-    with open("testes/issues_test.c", "w") as f:
+    with open("testes/issues_test.cbr", "w") as f:
         f.write("""{
     int x;
     x = 10;
     imprimir(x);
 }""")
         f.close()
-    p = subprocess.Popen("python3 main.py testes/issues_test.c", stdout=subprocess.PIPE, shell=True)
+    p = subprocess.Popen("python3 main.py testes/issues_test.cbr", stdout=subprocess.PIPE, shell=True)
     output, err = p.communicate()
     expected = "10\n"
     print("Expected output:", expected)
@@ -16,27 +16,27 @@ def test_1():
 
 def test_2():
     # Deveria apontar KeyError
-    with open("testes/issues_test.c", "w") as f:
+    with open("testes/issues_test.cbr", "w") as f:
         f.write("""{
     x=10;
     imprimir(x);
 }""")
         f.close()
-    p = subprocess.Popen("python3 main.py testes/issues_test.c", stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
+    p = subprocess.Popen("python3 main.py testes/issues_test.cbr", stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
     output, err = p.communicate()
     print(err.decode())
     assert "raise KeyError" in err.decode()
     # assert "Faltou um ';'" in err.decode()
 
 def test_3():
-    with open("testes/issues_test.c", "w") as f:
+    with open("testes/issues_test.cbr", "w") as f:
         f.write("""{
     palavra minhapalavra;
     minhapalavra = "abacate";
     imprimir(minhapalavra);
 }""")
         f.close()
-    p = subprocess.Popen("python3 main.py testes/issues_test.c", stdout=subprocess.PIPE, shell=True)
+    p = subprocess.Popen("python3 main.py testes/issues_test.cbr", stdout=subprocess.PIPE, shell=True)
     output, err = p.communicate()
     expected = "abacate\n"
     print("Expected output:", expected)
@@ -44,7 +44,7 @@ def test_3():
 
 def test_4():
     # Deveria apontar KeyError
-    with open("testes/issues_test.c", "w") as f:
+    with open("testes/issues_test.cbr", "w") as f:
         f.write("""{
     int x;
     x = 10;
@@ -53,13 +53,13 @@ def test_4():
     imprimir(x);
 }""")
         f.close()
-    p = subprocess.Popen("python3 main.py testes/issues_test.c", stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
+    p = subprocess.Popen("python3 main.py testes/issues_test.cbr", stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
     output, err = p.communicate()
     print(err.decode())
     assert "raise KeyError" in err.decode()
 
 def test_5():
-    with open("testes/issues_test.c", "w") as f:
+    with open("testes/issues_test.cbr", "w") as f:
         f.write("""{
     int x;
     x = 1;
@@ -68,42 +68,42 @@ def test_5():
     imprimir(y);
 }""")
         f.close()
-    p = subprocess.Popen("python3 main.py testes/issues_test.c", stdout=subprocess.PIPE, shell=True)
+    p = subprocess.Popen("python3 main.py testes/issues_test.cbr", stdout=subprocess.PIPE, shell=True)
     output, err = p.communicate()
     expected = "1\n" # Não deveria ser '2'?
     print("Expected output:", expected)
     assert output == expected.encode()
 
 def test_6():
-    with open("testes/issues_test.c", "w") as f:
+    with open("testes/issues_test.cbr", "w") as f:
         f.write("""{
     bool x;
     x = false;
     imprimir(x);
 }""")
         f.close()
-    p = subprocess.Popen("python3 main.py testes/issues_test.c", stdout=subprocess.PIPE, shell=True)
+    p = subprocess.Popen("python3 main.py testes/issues_test.cbr", stdout=subprocess.PIPE, shell=True)
     output, err = p.communicate()
     expected = "0\n" # Não deveria ser 'false'?
     print("Expected output:", expected)
     assert output == expected.encode()    
 
 def test_7():
-    with open("testes/issues_test.c", "w") as f:
+    with open("testes/issues_test.cbr", "w") as f:
         f.write("""{
     bool x;
     x = 2 == 2;
     imprimir(x);
 }""")
         f.close()
-    p = subprocess.Popen("python3 main.py testes/issues_test.c", stdout=subprocess.PIPE, shell=True)
+    p = subprocess.Popen("python3 main.py testes/issues_test.cbr", stdout=subprocess.PIPE, shell=True)
     output, err = p.communicate()
     expected = "1\n" # não deveria ser 'true'?
     print("Expected output:", expected)
     assert output == expected.encode()
 
 def test_8():
-    with open("testes/issues_test.c", "w") as f:
+    with open("testes/issues_test.cbr", "w") as f:
         f.write("""{
             int x;
 bool y;
@@ -115,14 +115,14 @@ imprimir(x + y);
 imprimir(z);
         }""")
         f.close()
-    p = subprocess.Popen("python3 main.py testes/issues_test.c", stdout=subprocess.PIPE, shell=True)
+    p = subprocess.Popen("python3 main.py testes/issues_test.cbr", stdout=subprocess.PIPE, shell=True)
     output, err = p.communicate()
     expected = "2\nx:\n"
     print("Expected output:", expected)
     assert output == expected.encode()
 
 def test_9():
-    with open("testes/issues_test.c", "w") as f:
+    with open("testes/issues_test.cbr", "w") as f:
         f.write("""{
             int x;
 bool y;
@@ -135,14 +135,14 @@ imprimir(z);
 imprimir(x + z); /* ERROR */
         }""")
         f.close()
-    p = subprocess.Popen("python3 main.py testes/issues_test.c", stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
+    p = subprocess.Popen("python3 main.py testes/issues_test.cbr", stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
     output, err = p.communicate()
     expected = "\n"
     print("Expected output:", expected)
     assert "raise KeyError" in err.decode()
 
 def test_10():
-    with open("testes/issues_test.c", "w") as f:
+    with open("testes/issues_test.cbr", "w") as f:
         f.write("""{
 
     imprimir(5*5);
@@ -152,7 +152,7 @@ def test_10():
     imprimir(50*50);
         }""")
         f.close()
-    p = subprocess.Popen("python3 main.py testes/issues_test.c", stdout=subprocess.PIPE, shell=True)
+    p = subprocess.Popen("python3 main.py testes/issues_test.cbr", stdout=subprocess.PIPE, shell=True)
     output, err = p.communicate()
     expected = "25\n1\n0\n0\n2500\n"
     print("Expected output:", expected)
@@ -163,14 +163,14 @@ def test_11():
         f.write("42\n")
         f.close()
 
-    with open("testes/issues_test.c", "w") as f:
+    with open("testes/issues_test.cbr", "w") as f:
         f.write("""{
     int x;
     x = entrada();
     imprimir(x);
 }""")
         f.close()
-    p = subprocess.Popen("python3 main.py testes/issues_test.c < testes/inputs/actual_in.txt", stdout=subprocess.PIPE, shell=True)
+    p = subprocess.Popen("python3 main.py testes/issues_test.cbr < testes/inputs/actual_in.txt", stdout=subprocess.PIPE, shell=True)
     output, err = p.communicate()
     expected = "42\n"
     print("Expected output:", expected)
@@ -180,7 +180,7 @@ def test_12():
     with open("testes/inputs/actual_in.txt", "w") as f:
         f.write("2\n8\n")
         f.close()
-    with open("testes/issues_test.c", "w") as f:
+    with open("testes/issues_test.cbr", "w") as f:
         f.write("""{
     int x;
     x = entrada();
@@ -188,14 +188,14 @@ def test_12():
     imprimir(x);
 }""")
         f.close()
-    p = subprocess.Popen("python3 main.py testes/issues_test.c < testes/inputs/actual_in.txt", stdout=subprocess.PIPE, shell=True)
+    p = subprocess.Popen("python3 main.py testes/issues_test.cbr < testes/inputs/actual_in.txt", stdout=subprocess.PIPE, shell=True)
     output, err = p.communicate()
     expected = "8\n"
     print("Expected output:", expected)
     assert output == expected.encode()
 
 def test_13():
-    with open("testes/issues_test.c", "w") as f:
+    with open("testes/issues_test.cbr", "w") as f:
         f.write("""{
   int x;
   x = true;
@@ -204,14 +204,14 @@ def test_13():
   }
 }""")
         f.close()
-    p = subprocess.Popen("python3 main.py testes/issues_test.c", stdout=subprocess.PIPE, shell=True)
+    p = subprocess.Popen("python3 main.py testes/issues_test.cbr", stdout=subprocess.PIPE, shell=True)
     output, err = p.communicate()
     expected = "42\n"
     print("Expected output:", expected)
     assert output == expected.encode()
 
 def test_14():
-    with open("testes/issues_test.c", "w") as f:
+    with open("testes/issues_test.cbr", "w") as f:
         f.write("""{
     int a;
     a = 0;
@@ -221,14 +221,14 @@ def test_14():
     }
 }""")
         f.close()
-    p = subprocess.Popen("python3 main.py testes/issues_test.c", stdout=subprocess.PIPE, shell=True)
+    p = subprocess.Popen("python3 main.py testes/issues_test.cbr", stdout=subprocess.PIPE, shell=True)
     output, err = p.communicate()
     expected = "1\n2\n3\n"
     print("Expected output:", expected)
     assert output == expected.encode()
 
 def test_15():
-    with open("testes/issues_test.c", "w") as f:
+    with open("testes/issues_test.cbr", "w") as f:
         f.write("""{
     int a;
     a = 1;
@@ -238,14 +238,14 @@ def test_15():
     }
 }""")
         f.close()
-    p = subprocess.Popen("python3 main.py testes/issues_test.c", stdout=subprocess.PIPE, shell=True)
+    p = subprocess.Popen("python3 main.py testes/issues_test.cbr", stdout=subprocess.PIPE, shell=True)
     output, err = p.communicate()
     expected = "2\n3\n"
     print("Expected output:", expected)
     assert output == expected.encode()
 
 def test_16():
-    with open("testes/issues_test.c", "w") as f:
+    with open("testes/issues_test.cbr", "w") as f:
         f.write("""{
     int a;
     int b;
@@ -261,14 +261,14 @@ def test_16():
     imprimir(a);
 }""")
         f.close()
-    p = subprocess.Popen("python3 main.py testes/issues_test.c", stdout=subprocess.PIPE, shell=True)
+    p = subprocess.Popen("python3 main.py testes/issues_test.cbr", stdout=subprocess.PIPE, shell=True)
     output, err = p.communicate()
     expected = "1\n2\n3\n4\n5\n5\n"
     print("Expected output:", expected)
     assert output == expected.encode()
 
 def test_17():
-    with open("testes/issues_test.c", "w") as f:
+    with open("testes/issues_test.cbr", "w") as f:
         f.write("""{
   bool x;
   x = true;
@@ -277,28 +277,28 @@ def test_17():
   }
 }""")
         f.close()
-    p = subprocess.Popen("python3 main.py testes/issues_test.c", stdout=subprocess.PIPE, shell=True)
+    p = subprocess.Popen("python3 main.py testes/issues_test.cbr", stdout=subprocess.PIPE, shell=True)
     output, err = p.communicate()
     expected = "42\n"
     print("Expected output:", expected)
     assert output == expected.encode()
 
 def test_18():
-    with open("testes/issues_test.c", "w") as f:
+    with open("testes/issues_test.cbr", "w") as f:
         f.write("""{   
     se (((true) || (true) || (true)) || ((false) && (false) && (false))){
         imprimir(42);
     }
 }""")
         f.close()
-    p = subprocess.Popen("python3 main.py testes/issues_test.c", stdout=subprocess.PIPE, shell=True)
+    p = subprocess.Popen("python3 main.py testes/issues_test.cbr", stdout=subprocess.PIPE, shell=True)
     output, err = p.communicate()
     expected = "42\n"
     print("Expected output:", expected)
     assert output == expected.encode()
 
 def test_19():
-    with open("testes/issues_test.c", "w") as f:
+    with open("testes/issues_test.cbr", "w") as f:
         f.write("""{
     bool a;
     bool b;
@@ -317,28 +317,28 @@ def test_19():
     }
 }""")
         f.close()
-    p = subprocess.Popen("python3 main.py testes/issues_test.c", stdout=subprocess.PIPE, shell=True)
+    p = subprocess.Popen("python3 main.py testes/issues_test.cbr", stdout=subprocess.PIPE, shell=True)
     output, err = p.communicate()
     expected = "42\n"
     print("Expected output:", expected)
     assert output == expected.encode()
 
 def test_20():
-    with open("testes/issues_test.c", "w") as f:
+    with open("testes/issues_test.cbr", "w") as f:
         f.write("""{
     int y;
     y = true+1;
     imprimir(y);
 }""")
         f.close()
-    p = subprocess.Popen("python3 main.py testes/issues_test.c", stdout=subprocess.PIPE, shell=True)
+    p = subprocess.Popen("python3 main.py testes/issues_test.cbr", stdout=subprocess.PIPE, shell=True)
     output, err = p.communicate()
     expected = "2\n"
     print("Expected output:", expected)
     assert output == expected.encode()
 
 def test_21():
-    with open("testes/issues_test.c", "w") as f:
+    with open("testes/issues_test.cbr", "w") as f:
         f.write("""{
     bool x;
     int y;
@@ -347,42 +347,42 @@ def test_21():
     imprimir(y);
 }""")
         f.close()
-    p = subprocess.Popen("python3 main.py testes/issues_test.c", stdout=subprocess.PIPE, shell=True)
+    p = subprocess.Popen("python3 main.py testes/issues_test.cbr", stdout=subprocess.PIPE, shell=True)
     output, err = p.communicate()
     expected = "1\n"
     print("Expected output:", expected)
     assert output == expected.encode()
 
 def test_22():
-    with open("testes/issues_test.c", "w") as f:
+    with open("testes/issues_test.cbr", "w") as f:
         f.write("""{
   se(2){
     imprimir(42);
   }
 }""")
         f.close()
-    p = subprocess.Popen("python3 main.py testes/issues_test.c", stdout=subprocess.PIPE, shell=True)
+    p = subprocess.Popen("python3 main.py testes/issues_test.cbr", stdout=subprocess.PIPE, shell=True)
     output, err = p.communicate()
     expected = "42\n"
     print("Expected output:", expected)
     assert output == expected.encode()
 
 def test_23():
-    with open("testes/issues_test.c", "w") as f:
+    with open("testes/issues_test.cbr", "w") as f:
         f.write("""{
   se(2 || false){
     imprimir(42);
   }
 }""")
         f.close()
-    p = subprocess.Popen("python3 main.py testes/issues_test.c", stdout=subprocess.PIPE, shell=True)
+    p = subprocess.Popen("python3 main.py testes/issues_test.cbr", stdout=subprocess.PIPE, shell=True)
     output, err = p.communicate()
     expected = "42\n"
     print("Expected output:", expected)
     assert output == expected.encode()
 
 def test_24():
-    with open("testes/issues_test.c", "w") as f:
+    with open("testes/issues_test.cbr", "w") as f:
         f.write("""{
     palavra msg;
     msg = "oi";
@@ -393,42 +393,42 @@ def test_24():
     }
 }""")
         f.close()
-    p = subprocess.Popen("python3 main.py testes/issues_test.c", stdout=subprocess.PIPE, shell=True)
+    p = subprocess.Popen("python3 main.py testes/issues_test.cbr", stdout=subprocess.PIPE, shell=True)
     output, err = p.communicate()
     expected = "sim\n"
     print("Expected output:", expected)
     assert output == expected.encode()
 
 def test_25():
-    with open("testes/issues_test.c", "w") as f:
+    with open("testes/issues_test.cbr", "w") as f:
         f.write("""{
     se (true || false){
         imprimir(1);
     }
 }""")
         f.close()
-    p = subprocess.Popen("python3 main.py testes/issues_test.c", stdout=subprocess.PIPE, shell=True)
+    p = subprocess.Popen("python3 main.py testes/issues_test.cbr", stdout=subprocess.PIPE, shell=True)
     output, err = p.communicate()
     expected = "1\n"
     print("Expected output:", expected)
     assert output == expected.encode()
 
 def test_26():
-    with open("testes/issues_test.c", "w") as f:
+    with open("testes/issues_test.cbr", "w") as f:
         f.write("""{
     se (true && (1==1)){
         imprimir(1);
     }
 }""")
         f.close()
-    p = subprocess.Popen("python3 main.py testes/issues_test.c", stdout=subprocess.PIPE, shell=True)
+    p = subprocess.Popen("python3 main.py testes/issues_test.cbr", stdout=subprocess.PIPE, shell=True)
     output, err = p.communicate()
     expected = "1\n"
     print("Expected output:", expected)
     assert output == expected.encode()
 
 def test_27():
-    with open("testes/issues_test.c", "w") as f:
+    with open("testes/issues_test.cbr", "w") as f:
         f.write("""{
     se (true && (!(1==1))){
         imprimir(1);
@@ -438,14 +438,14 @@ def test_27():
     }
 }""")
         f.close()
-    p = subprocess.Popen("python3 main.py testes/issues_test.c", stdout=subprocess.PIPE, shell=True)
+    p = subprocess.Popen("python3 main.py testes/issues_test.cbr", stdout=subprocess.PIPE, shell=True)
     output, err = p.communicate()
     expected = "2\n"
     print("Expected output:", expected)
     assert output == expected.encode()
 
 def test_28():
-    with open("testes/issues_test.c", "w") as f:
+    with open("testes/issues_test.cbr", "w") as f:
         f.write("""{
     palavra msg;
     msg = "tchau";
@@ -456,14 +456,14 @@ def test_28():
     }
 }""")
         f.close()
-    p = subprocess.Popen("python3 main.py testes/issues_test.c", stdout=subprocess.PIPE, shell=True)
+    p = subprocess.Popen("python3 main.py testes/issues_test.cbr", stdout=subprocess.PIPE, shell=True)
     output, err = p.communicate()
     expected = "nao\n"
     print("Expected output:", expected)
     assert output == expected.encode()
 
 def test_29():
-    with open("testes/issues_test.c", "w") as f:
+    with open("testes/issues_test.cbr", "w") as f:
         f.write("""{
     bool a;
     int b;
@@ -478,14 +478,14 @@ def test_29():
     imprimir(c);
 }""")
         f.close()
-    p = subprocess.Popen("python3 main.py testes/issues_test.c", stdout=subprocess.PIPE, shell=True)
+    p = subprocess.Popen("python3 main.py testes/issues_test.cbr", stdout=subprocess.PIPE, shell=True)
     output, err = p.communicate()
     expected = "1\n"
     print("Expected output:", expected)
     assert output == expected.encode()
 
 def test_30():
-    with open("testes/issues_test.c", "w") as f:
+    with open("testes/issues_test.cbr", "w") as f:
         f.write("""{
     bool a;
     int b;
@@ -500,14 +500,14 @@ def test_30():
     imprimir(c);
 }""")
         f.close()
-    p = subprocess.Popen("python3 main.py testes/issues_test.c", stdout=subprocess.PIPE, shell=True)
+    p = subprocess.Popen("python3 main.py testes/issues_test.cbr", stdout=subprocess.PIPE, shell=True)
     output, err = p.communicate()
     expected = "2\n"
     print("Expected output:", expected)
     assert output == expected.encode()
 
 def test_31():
-    with open("testes/issues_test.c", "w") as f:
+    with open("testes/issues_test.cbr", "w") as f:
         f.write("""{
     bool a;
     int b;
@@ -524,13 +524,13 @@ def test_31():
     }
 }""")
         f.close()
-    p = subprocess.Popen("python3 main.py testes/issues_test.c", stdout=subprocess.PIPE, shell=True)
+    p = subprocess.Popen("python3 main.py testes/issues_test.cbr", stdout=subprocess.PIPE, shell=True)
     output, err = p.communicate()
     expected = "1\n"
     print("Expected output:", expected)
     assert output == expected.encode()
 # def test_26():
-#     with open("testes/issues_test.c", "w") as f:
+#     with open("testes/issues_test.cbr", "w") as f:
 #         f.write("""{
 #     se (! (1==0)) {
 #         imprimir(1);
@@ -541,14 +541,14 @@ def test_31():
 # }
 # """)
 #         f.close()
-#     p = subprocess.Popen("python3 main.py testes/issues_test.c", stdout=subprocess.PIPE, shell=True)
+#     p = subprocess.Popen("python3 main.py testes/issues_test.cbr", stdout=subprocess.PIPE, shell=True)
 #     output, err = p.communicate()
 #     expected = "1\n"
 #     print("Expected output:", expected)
 #     assert output == expected.encode()
 
 # def test_27():
-#     with open("testes/issues_test.c", "w") as f:
+#     with open("testes/issues_test.cbr", "w") as f:
 #         f.write("""{
 #     se (! (((1>0) || (1==0)) && (0==9))){
 #         imprimir(1);
@@ -556,14 +556,14 @@ def test_31():
 # }
 # """)
 #         f.close()
-#     p = subprocess.Popen("python3 main.py testes/issues_test.c", stdout=subprocess.PIPE, shell=True)
+#     p = subprocess.Popen("python3 main.py testes/issues_test.cbr", stdout=subprocess.PIPE, shell=True)
 #     output, err = p.communicate()
 #     expected = "1\n"
 #     print("Expected output:", expected)
 #     assert output == expected.encode()
 
 # def test_30(): # Loop infinito - Arrumar
-#     with open("testes/issues_test.c", "w") as f:
+#     with open("testes/issues_test.cbr", "w") as f:
 #         f.write("""{   
 #     a = 0;
 #     b = 1;
@@ -577,21 +577,21 @@ def test_31():
 #     imprimir(a);
 # }""")
 #         f.close()
-#     p = subprocess.Popen("python3 main.py testes/issues_test.c", stdout=subprocess.PIPE, shell=True)
+#     p = subprocess.Popen("python3 main.py testes/issues_test.cbr", stdout=subprocess.PIPE, shell=True)
 #     output, err = p.communicate()
 #     expected = "1\n2\n3\n4\n5\n5\n"
 #     print("Expected output:", expected)
 #     assert output == expected.encode()
 
 # def test_34(): # -> Ainda tá dando erro, arrumar
-#     with open("testes/issues_test.c", "w") as f:
+#     with open("testes/issues_test.cbr", "w") as f:
 #         f.write("""{   
 #     se (-5 < 4){
 #         imprimir(1);
 #     }
 # }""")
 #         f.close()
-#     p = subprocess.Popen("python3 main.py testes/issues_test.c", stdout=subprocess.PIPE, shell=True)
+#     p = subprocess.Popen("python3 main.py testes/issues_test.cbr", stdout=subprocess.PIPE, shell=True)
 #     output, err = p.communicate()
 #     expected = "1\n"
 #     print("Expected output:", expected)
@@ -601,13 +601,13 @@ def test_31():
 #     with open("testes/inputs/issues_in.txt", "w") as f:
 #         f.write("2\n")
 #         f.close()
-#     with open("testes/issues_test.c", "w") as f:
+#     with open("testes/issues_test.cbr", "w") as f:
 #         f.write("""{
 #     x = entrada();
 #     imprimir(x);
 # }""")
 #         f.close()
-#     p = subprocess.Popen("python3 main.py testes/issues_test.c < testes/inputs/issues_in.txt", stdout=subprocess.PIPE, shell=True)
+#     p = subprocess.Popen("python3 main.py testes/issues_test.cbr < testes/inputs/issues_in.txt", stdout=subprocess.PIPE, shell=True)
 #     output, err = p.communicate()
 #     expected = "2\n"
 #     print("Expected output:", expected)
@@ -617,14 +617,14 @@ def test_31():
 #     with open("testes/inputs/issues_in.txt", "w") as f:
 #         f.write("2\n3\n")
 #         f.close()
-#     with open("testes/issues_test.c", "w") as f:
+#     with open("testes/issues_test.cbr", "w") as f:
 #         f.write("""{
 #     x = entrada();
 #     x = entrada();
 #     imprimir(x);
 # }""")
 #         f.close()
-#     p = subprocess.Popen("python3 main.py testes/issues_test.c < testes/inputs/issues_in.txt", stdout=subprocess.PIPE, shell=True)
+#     p = subprocess.Popen("python3 main.py testes/issues_test.cbr < testes/inputs/issues_in.txt", stdout=subprocess.PIPE, shell=True)
 #     output, err = p.communicate()
 #     expected = "3\n"
 #     print("Expected output:", expected)
@@ -634,14 +634,14 @@ def test_31():
 #     with open("testes/inputs/issues_in.txt", "w") as f:
 #         f.write("2\n")
 #         f.close()
-#     with open("testes/issues_test.c", "w") as f:
+#     with open("testes/issues_test.cbr", "w") as f:
 #         f.write("""{
 #     x = entrada();
 #     y = x*2;
 #     imprimir(y);
 # }""")
 #         f.close()
-#     p = subprocess.Popen("python3 main.py testes/issues_test.c < testes/inputs/issues_in.txt", stdout=subprocess.PIPE, shell=True)
+#     p = subprocess.Popen("python3 main.py testes/issues_test.cbr < testes/inputs/issues_in.txt", stdout=subprocess.PIPE, shell=True)
 #     output, err = p.communicate()
 #     expected = "4\n"
 #     print("Expected output:", expected)
@@ -651,28 +651,28 @@ def test_31():
 #     with open("testes/inputs/issues_in.txt", "w") as f:
 #         f.write("2\n3\n")
 #         f.close()
-#     with open("testes/issues_test.c", "w") as f:
+#     with open("testes/issues_test.cbr", "w") as f:
 #         f.write("""{
 #     x = entrada();
 #     y = entrada();
 #     imprimir(x+y);
 # }""")
 #         f.close()
-#     p = subprocess.Popen("python3 main.py testes/issues_test.c < testes/inputs/issues_in.txt", stdout=subprocess.PIPE, shell=True)
+#     p = subprocess.Popen("python3 main.py testes/issues_test.cbr < testes/inputs/issues_in.txt", stdout=subprocess.PIPE, shell=True)
 #     output, err = p.communicate()
 #     expected = "5\n"
 #     print("Expected output:", expected)
 #     assert output == expected.encode()
 
 # def test_43():
-#     with open("testes/issues_test.c", "w") as f:
+#     with open("testes/issues_test.cbr", "w") as f:
 #         f.write("""{
 #     se (0 >1)
 #         imprimir(1);
 #     imprimir(0);
 # }""")
 #         f.close()
-#     p = subprocess.Popen("python3 main.py testes/issues_test.c", stdout=subprocess.PIPE, shell=True)
+#     p = subprocess.Popen("python3 main.py testes/issues_test.cbr", stdout=subprocess.PIPE, shell=True)
 #     output, err = p.communicate()
 #     expected = "0\n"
 #     print("Expected output:", expected)

@@ -1312,7 +1312,7 @@ class Parser(object):
 if __name__ == '__main__':
     calculadora = Parser()
     filename = sys.argv[1]
-    if (filename.endswith(".c")):
+    if (filename.endswith(".cbr")):
         try:
             f = open(filename, "r")
             codelines = f.readlines()
@@ -1320,4 +1320,4 @@ if __name__ == '__main__':
         except FileNotFoundError:
             raise ValueError(f"O arquivo '{filename}' não foi encontrado")
     else:
-        raise ValueError(f"O arquivo '{filename}' passado não possui a extensão '.c'")
+        raise ValueError(f"O arquivo '{filename}' passado não possui a extensão '.cbr'")

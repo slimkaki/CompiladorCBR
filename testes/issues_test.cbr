@@ -1,13 +1,17 @@
-int principal() {
-    int x;
-    x = 50;
-    se (x > 50) {
-        imprimir("x é maior que 50");
-    } senao se (x < 50) {
-        imprimir("x é menor que 50");
-    } senao se (x == 50) {
-        imprimir("x é igual a 50");
-    } senao {
-        imprimir("eu não sei o que é x");
+int serie(int x)
+{
+    se (x == 1) {
+        retornar x;
+    }senao{
+    	retornar x + serie(x-1);
     }
+    
+}
+
+int principal()
+{
+    int x;
+    x = 5;
+    imprimir(serie(x));
+    
 }

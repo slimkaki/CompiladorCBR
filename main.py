@@ -1334,7 +1334,7 @@ class Parser(object):
                 else:
                     last_value = 0
                 last_value_tipo = symbols.getVariable(self.varEqual.value)[1]
-            elif (returnFlag):
+            elif (returnFlag and myActualVar in ["verdadeiro", "falso"]):
                 last_value = myActualVar
                 last_value_tipo = "bool"
             else:
@@ -1508,9 +1508,9 @@ class Parser(object):
                 self.isDone = False
                 return r
             if (self.itIsAPrint):
-                if (isinstance(symbols.getVariable("imprimir")[0].children[0], IntVal)):
+                if (isinstance(symbols.getVariable("imprimir")[0].children[0], IntVal) or (isinstance(symbols.getVariable("imprimir")[0].children[0], BinOp) and (symbols.getVariable("imprimir")[0].children[0].value in ["+", "-", "/", "*"])) or (isinstance(symbols.getVariable("imprimir")[0].children[0], UnOp))):
                     print(int(symbols.getVariable("imprimir")[0].Evaluate()))
-                elif(isinstance(symbols.getVariable("imprimir")[0].children[0], BoolVal)):
+                elif(isinstance(symbols.getVariable("imprimir")[0].children[0], BoolVal) or (isinstance(symbols.getVariable("imprimir")[0].children[0], BinOp) and (symbols.getVariable("imprimir")[0].children[0].value in [">", "<", "==", ">=", "<=", "&&", "||", "!="]))):
                     if (symbols.getVariable("imprimir")[0].Evaluate()):
                         print("verdadeiro")
                     else:

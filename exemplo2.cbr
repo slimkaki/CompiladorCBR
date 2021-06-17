@@ -1,0 +1,15 @@
+vazio loop(int x) {
+    /*Função que roda em loop por 5 iterações*/
+    enquanto (x < 5) {
+        imprimir(x);
+        x = x + 1;
+    }
+    imprimir("Acabou o loop!");
+}
+
+int principal() {
+    /*Função principal (main)*/
+    int a;
+    a = 0;
+    loop(a);
+}

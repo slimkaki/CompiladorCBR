@@ -1,0 +1,34 @@
+bool retorna_falso () { 
+    /*Função que retorna um booleano falso*/
+    retornar falso;
+}
+
+int principal () {
+    /*Função principal (main)*/
+    retorna_falso();
+
+    diga_meu_nome("Walter White");
+
+    int a;
+    a = potencia(10, 2);
+
+    imprimir("valor do a:");
+    imprimir(a);
+
+}
+
+vazio diga_meu_nome (palavra nome) {
+    /*Função que não retorna nada, mas pode fazer operações da linguagem*/
+    imprimir("Você está certo!"); /*Heisenberg*/
+}
+
+int potencia (int numero, int potencia) {
+    /*Função que eleva um numero a uma potencia*/
+    int i;
+    i = 1;
+    enquanto(i < potencia) {
+        numero = numero * numero;
+        i = i + 1;
+    }
+    retornar numero;
+}

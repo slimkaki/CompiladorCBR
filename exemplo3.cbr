@@ -1,4 +1,5 @@
 int principal() {
+    /*Função principal (main)*/
     int x;
     x = 50;
     se (x > 50) {

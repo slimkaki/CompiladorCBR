@@ -26,13 +26,13 @@ class BinOp(Node):
         b = self.children[1].Evaluate()
 
         if (isinstance(a, str)):
-            if (a in ["True", "False", "true", "false"]):
-                a = str(a).lower() == "true"
+            if (a in ["True", "False", "verdadeiro", "falso"]):
+                a = str(a).lower() == "verdadeiro"
             elif (a.isnumeric()):
                 a = int(a)
         if(isinstance(b, str)):
-            if (b in ["True", "False", "true", "false"]):
-                b = str(b).lower() == "true"
+            if (b in ["True", "False", "verdadeiro", "falso"]):
+                b = str(b).lower() == "verdadeiro"
             elif (b.isnumeric()):
                 b = int(b)
 
@@ -132,10 +132,10 @@ class UnOp(Node):
         elif (self.value == "!"):
             if (isinstance(a, int) and a in [0, 1]):
                 return (not a)
-            elif (a == "true"):
-                return "false"
-            elif (a == "false"):
-                return "true"
+            elif (a == "verdadeiro"):
+                return "falso"
+            elif (a == "falso"):
+                return "verdadeiro"
             raise KeyError(f"O valor '{a}' não é 0 ou 1")
             
 
@@ -234,7 +234,7 @@ class BoolVal(Node):
         """
         Override da função da classe node
         """
-        return (str(self.value).lower() == "true")
+        return str(self.value).lower() == "verdadeiro"
         
     def setParent(self, Node):
         self.parent = Node

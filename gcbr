@@ -1,0 +1,8 @@
+#/bin/bash
+if [ -z $1 ]; then
+    echo "É necessário um arquivo de entrada"
+    exit 1
+else
+    python3 main.py $1
+    exit 0
+fi

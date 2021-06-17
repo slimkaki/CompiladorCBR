@@ -292,14 +292,16 @@ x é igual a 50
 ## EBNF - Linguagem _"cbr"_
 
 ```
-BLOCK = TYPE, IDENTIFIER, "(", { DECLARATION }, ")", "{", { COMMAND }, "}" ;
-COMMAND = ( λ | DECLARATION | ASSIGNMENT | PRINT | INPUT | CONDITION | LOOP | RETURN ), ";" ;
+FUNCDEFBLOCK = { TYPE, IDENTIFIER, "(", { TYPE, IDENTIFIER, "," }, ")", BLOCK } ;
+BLOCK = "{", { COMMAND }, "}" ;
+COMMAND = ( λ | DECLARATION | ASSIGNMENT | PRINT | INPUT | CONDITION | LOOP | RETURN | FUNCCALL ), ";" ;
 TYPE = ( "int" | "bool" | "palavra" ) ;
 DECLARATION = TYPE, IDENTIFIER ;
-ASSIGNMENT = IDENTIFIER, "=", ( EXPRESSION | STRING | BOOLEAN | CONDITIONEXP ) ;
+ASSIGNMENT = IDENTIFIER, "=", ( EXPRESSION | STRING | BOOLEAN | CONDITIONEXP | FUNCCALL ) ;
 STRING = '"', { LETTER | DIGIT | " " | "+" | "-" | "*" | "/" | "_" | ... | "(" | ")" | "|" | "&" }, '"' ;
 BOOLEAN = ( "verdadeiro" | "falso" ) ;
 PRINT = "imprimir", "(", EXPRESSION, ")" ;
+FUNCCALL = IDENTIFIER, "(", { TYPE, IDENTIFIER, "," }, ")" ;
 RETURN = "retornar", ( IDENTIFIER | NUMBER | EXPRESSION | BOOLEAN | CONDITIONEXP ) ;
 LOOP = "enquanto", "(", CONDITIONEXP, ")", "{", BLOCK, "}" ;
 CONDITION = IF, "{", BLOCK, "}", { ( ELSEIF, ELSE ), "{", BLOCK, "}" } ;
